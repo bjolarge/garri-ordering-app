@@ -37,8 +37,10 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       this.logger.warn('Document not found with filterQuery', filterQuery);
       throw new NotFoundException('Document not found.');
     }
-
-    return document;
+else{
+  return;
+}
+  
   }
 
   async findOneAndUpdate(
