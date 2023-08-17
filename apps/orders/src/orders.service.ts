@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
 export class OrdersService {
   constructor(private readonly ordersRepository:OrdersRepository, @Inject(BILLING_SERVICE)private billingClient:ClientProxy,){}
 
-  async createOrder(request: CreateOrderRequest){
+  async createOrder(request: CreateOrderRequest,authentication: string){
   //return this.ordersRepository.create(request);
   //we call this only if our database call exists
   const session = await this.ordersRepository.startTransaction();
@@ -18,6 +18,7 @@ export class OrdersService {
     await lastValueFrom(
       this.billingClient.emit('order_created', {
         request,
+        Authentication: authentication,
       }),
     );
     await session.commitTransaction();
